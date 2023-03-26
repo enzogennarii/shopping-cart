@@ -18,17 +18,28 @@ const removeLoading = () => {
   loadingEl.remove();
 };
 
+const createErrorMessage = () => {
+  const errorMessage = document.createElement('p');
+  errorMessage.innerText = 'Algum erro ocorreu, recarregue a página e tente novamente';
+  errorMessage.classList.add('error');
+  sectionProducts.appendChild(errorMessage);
+};
+
 // const removeError = () => {
 //   const errorEl = document.querySelector('.error');
 //   errorEl.remove();
 // };
 
 const showProductSearched = async (product = 'computador') => {
-  const products = await fetchProductsList(product);
-  products.forEach((item) => {
-    const createItemProduct = createProductElement(item);
-    sectionProducts.appendChild(createItemProduct);
-  });
+  try {
+    const products = await fetchProductsList(product);
+    products.forEach((item) => {
+      const createItemProduct = createProductElement(item);
+      sectionProducts.appendChild(createItemProduct);
+    });
+  } catch (error) {
+    createErrorMessage();
+  }
   removeLoading();
 };
 
