@@ -14,7 +14,6 @@ export const fetchProduct = async (id) => {
     return data;
   } catch (error) {
     createErrorMessage();
-    console.log('entrou no erro');
   }
 };
 
@@ -26,6 +25,5 @@ export const fetchProductsList = async (product) => {
     return data.results;
   } catch (error) {
     createErrorMessage();
-    console.log('entrou no erro');
   }
 };
