@@ -18,20 +18,18 @@ const removeLoading = () => {
   loadingEl.remove();
 };
 
-const removeError = () => {
-  const errorEl = document.querySelector('.error');
-  errorEl.remove();
-};
+// const removeError = () => {
+//   const errorEl = document.querySelector('.error');
+//   errorEl.remove();
+// };
 
-const showProductSearched = async (product) => {
-  removeLoading();
-  removeError();
-  if (!product) { product = 'computador'; }
+const showProductSearched = async (product = 'computador') => {
   const products = await fetchProductsList(product);
   products.forEach((item) => {
     const createItemProduct = createProductElement(item);
     sectionProducts.appendChild(createItemProduct);
   });
+  removeLoading();
 };
 
 window.onload = () => {
