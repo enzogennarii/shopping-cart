@@ -1,7 +1,8 @@
 import { getSavedCartIDs } from './helpers/cartFunctions';
 import { searchCep } from './helpers/cepFunctions';
 import { fetchProduct, fetchProductsList } from './helpers/fetchFunctions';
-import { createCartProductElement, createProductElement } from './helpers/shopFunctions';
+import { createCartProductElement, createProductElement, attPrice }
+  from './helpers/shopFunctions';
 import './style.css';
 
 const sectionProducts = document.querySelector('.products');
@@ -51,4 +52,5 @@ window.onload = () => {
   loading();
   showProductSearched();
   reloadCart();
+  attPrice();
 };

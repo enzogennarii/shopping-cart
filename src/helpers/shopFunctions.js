@@ -51,9 +51,8 @@ const removeCartProduct = (li, id) => {
   removeCartID(id);
 };
 
-const attPrice = async () => {
+export const attPrice = async () => {
   const totalPrice = document.querySelector('.total-price');
-  totalPrice.innerText = '';
   const idsOnLocalStorage = getSavedCartIDs().map((id) => fetchProduct(id));
   const products = await Promise.all(idsOnLocalStorage);
   totalPrice.innerText = products.reduce((acc, curr) => {
