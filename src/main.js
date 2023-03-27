@@ -1,10 +1,12 @@
 import { searchCep } from './helpers/cepFunctions';
-import { fetchProductsList } from './helpers/fetchFunctions';
-import { createProductElement } from './helpers/shopFunctions';
+import { fetchProduct, fetchProductsList } from './helpers/fetchFunctions';
+import { createCartProductElement, createProductElement } from './helpers/shopFunctions';
+import { getSavedCartIDs } from './helpers/cartFunctions';
 import './style.css';
 
-document.querySelector('.cep-button').addEventListener('click', searchCep);
 const sectionProducts = document.querySelector('.products');
+const cartProducts = document.querySelector('.cart__products');
+document.querySelector('.cep-button').addEventListener('click', searchCep);
 
 const loading = () => {
   const loadingEl = document.createElement('p');
@@ -25,11 +27,6 @@ const createErrorMessage = () => {
   sectionProducts.appendChild(errorMessage);
 };
 
-// const removeError = () => {
-//   const errorEl = document.querySelector('.error');
-//   errorEl.remove();
-// };
-
 const showProductSearched = async (product = 'computador') => {
   try {
     const products = await fetchProductsList(product);
@@ -42,6 +39,15 @@ const showProductSearched = async (product = 'computador') => {
   }
   removeLoading();
 };
+
+const addOnCart = () => {
+  const idsOnLocalStorage = getSavedCartIDs();
+  idsOnLocalStorage.forEach(async (id) => {
+    const product = await fetchProduct(id);
+    cartProducts.appendChild(createCartProductElement(product));
+  });
+};
+addOnCart();
 
 window.onload = () => {
   loading();
