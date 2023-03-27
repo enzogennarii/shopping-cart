@@ -5,7 +5,6 @@ import { getSavedCartIDs } from './helpers/cartFunctions';
 import './style.css';
 
 const sectionProducts = document.querySelector('.products');
-const cartProducts = document.querySelector('.cart__products');
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 
 const loading = () => {
@@ -39,15 +38,6 @@ const showProductSearched = async (product = 'computador') => {
   }
   removeLoading();
 };
-
-const addOnCart = () => {
-  const idsOnLocalStorage = getSavedCartIDs();
-  idsOnLocalStorage.forEach(async (id) => {
-    const product = await fetchProduct(id);
-    cartProducts.appendChild(createCartProductElement(product));
-  });
-};
-addOnCart();
 
 window.onload = () => {
   loading();
