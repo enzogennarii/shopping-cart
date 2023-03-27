@@ -1,10 +1,11 @@
+import { getSavedCartIDs } from './helpers/cartFunctions';
 import { searchCep } from './helpers/cepFunctions';
 import { fetchProduct, fetchProductsList } from './helpers/fetchFunctions';
 import { createCartProductElement, createProductElement } from './helpers/shopFunctions';
-import { getSavedCartIDs } from './helpers/cartFunctions';
 import './style.css';
 
 const sectionProducts = document.querySelector('.products');
+const cartProducts = document.querySelector('.cart__products');
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 
 const loading = () => {
@@ -39,7 +40,24 @@ const showProductSearched = async (product = 'computador') => {
   removeLoading();
 };
 
+// const reloadCart = () => {
+//   const idsOnLocalStorage = getSavedCartIDs();
+//   idsOnLocalStorage.forEach(async (id) => {
+//     const product = await fetchProduct(id);
+//     const createProductEl = createCartProductElement(product);
+//     cartProducts.appendChild(createProductEl);
+//   });
+// };
+
+const reloadCart = async () => {
+  const idsOnLocalStorage = getSavedCartIDs().map((id) => fetchProduct(id));
+  const products = await Promise.all(idsOnLocalStorage);
+  products.forEach((product) => cartProducts
+    .appendChild(createCartProductElement(product)));
+};
+
 window.onload = () => {
   loading();
   showProductSearched();
+  reloadCart();
 };

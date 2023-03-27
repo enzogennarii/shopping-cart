@@ -92,7 +92,7 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
   return li;
 };
 
-const addOnCart = async () => {
+export const addOnCart = async () => {
   const cartProducts = document.querySelector('.cart__products');
   const idsOnLocalStorage = getSavedCartIDs();
   const lastAdded = idsOnLocalStorage[idsOnLocalStorage.length - 1];
