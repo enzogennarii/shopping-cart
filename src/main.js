@@ -40,15 +40,6 @@ const showProductSearched = async (product = 'computador') => {
   removeLoading();
 };
 
-// const reloadCart = () => {
-//   const idsOnLocalStorage = getSavedCartIDs();
-//   idsOnLocalStorage.forEach(async (id) => {
-//     const product = await fetchProduct(id);
-//     const createProductEl = createCartProductElement(product);
-//     cartProducts.appendChild(createProductEl);
-//   });
-// };
-
 const reloadCart = async () => {
   const idsOnLocalStorage = getSavedCartIDs().map((id) => fetchProduct(id));
   const products = await Promise.all(idsOnLocalStorage);

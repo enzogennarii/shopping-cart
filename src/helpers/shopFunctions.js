@@ -51,6 +51,17 @@ const removeCartProduct = (li, id) => {
   removeCartID(id);
 };
 
+const attPrice = async () => {
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerText = '';
+  const idsOnLocalStorage = getSavedCartIDs().map((id) => fetchProduct(id));
+  const products = await Promise.all(idsOnLocalStorage);
+  totalPrice.innerText = products.reduce((acc, curr) => {
+    acc += curr.price;
+    return acc;
+  }, 0);
+};
+
 /**
  * Função responsável por criar e retornar um product do carrinho.
  * @param {Object} product - Objeto do produto.
@@ -88,7 +99,10 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
   );
   li.appendChild(removeButton);
 
-  li.addEventListener('click', () => removeCartProduct(li, id));
+  li.addEventListener('click', () => {
+    removeCartProduct(li, id);
+    attPrice();
+  });
   return li;
 };
 
@@ -133,6 +147,7 @@ export const createProductElement = ({ id, title, thumbnail, price }) => {
   cartButton.addEventListener('click', () => {
     saveCartID(id);
     addOnCart();
+    attPrice();
   });
   section.appendChild(cartButton);
 
