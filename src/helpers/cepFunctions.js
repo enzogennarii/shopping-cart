@@ -13,18 +13,22 @@ export const searchCep = async () => {
   const cep = document.querySelector('.cep-input').value || '0';
   const span = document.querySelector('.cart__address');
 
-  const addressObj = await getAddress(cep);
+  try {
+    const addressObj = await getAddress(cep);
 
-  if (addressObj.code) {
+    if (addressObj.code) {
+      span.innerText = 'CEP não encontrado';
+      return;
+    }
+
+    if (addressObj.ddd) {
+      const { address, district, city, state } = addressObj;
+      span.innerText = `${address} - ${district} - ${city} - ${state}`;
+    } else {
+      const { street, neighborhood, city, state } = addressObj;
+      span.innerText = `${street} - ${neighborhood} - ${city} - ${state}`;
+    }
+  } catch (e) {
     span.innerText = 'CEP não encontrado';
-    return;
-  }
-
-  if (addressObj.ddd) {
-    const { address, district, city, state } = addressObj;
-    span.innerText = `${address} - ${district} - ${city} - ${state}`;
-  } else {
-    const { street, neighborhood, city, state } = addressObj;
-    span.innerText = `${street} - ${neighborhood} - ${city} - ${state}`;
   }
 };
